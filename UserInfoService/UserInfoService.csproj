@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\aspnetcoreDemo</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\aspnetcoreDemo.Core.Extension\aspnetcoreDemo.Core.Extension.csproj" />
+    <ProjectReference Include="..\aspnetcoreDemo.Core.IServices\aspnetcoreDemo.Core.IServices.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\aspnetcoreDemo.Core.Model\aspnetcoreDemo.Core.Model.csproj" />
+    <ProjectReference Include="..\aspnetcoreDemo.Core.Repository\aspnetcoreDemo.Core.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
