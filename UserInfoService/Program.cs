@@ -1,4 +1,3 @@
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -39,6 +38,7 @@ namespace UserInfoService
                             config.UseStaticFiles = true;
                             config.UseCors = true;
                         });
+                        
                     })
                    .ConfigureAppConfiguration((context, config) =>
                    {
