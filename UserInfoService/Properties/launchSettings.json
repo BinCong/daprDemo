@@ -1,29 +1,36 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:40474",
-      "sslPort": 0
+      "applicationUrl": "http://localhost:16206",
+      "sslPort": 44323
     }
   },
-  "LoginService": {
-    "commandName": "Project",
-    "launchBrowser": true,
-    "environmentVariables": {
-      "ASPNETCORE_ENVIRONMENT": "Development"
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     },
-    "dotnetRunMessages": "true",
-    "applicationUrl": "http://localhost:9007"
-  },
-  "WSL 2": {
-    "commandName": "WSL2",
-    "launchBrowser": true,
-    "launchUrl": "http://localhost:9007",
-    "environmentVariables": {
-      "ASPNETCORE_URLS": "http://localhost:9007",
-      "ASPNETCORE_ENVIRONMENT": "Development"
+    "UserInfoService": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      //"dotnetRunMessages": "true",
+      "applicationUrl": "http://localhost:9007/index.html"
+      //"applicationUrl": "https://localhost:5001;http://localhost:5000"
     },
-    "distributionName": ""
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true,
+      "useSSL": true
+    }
   }
 }

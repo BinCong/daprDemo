@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["linuxdocker/linuxdocker.csproj", "linuxdocker/"]
-RUN dotnet restore "linuxdocker/linuxdocker.csproj"
+COPY ["UserInfoService/UserInfoService.csproj", "UserInfoService/"]
+RUN dotnet restore "UserInfoService/UserInfoService.csproj"
 COPY . .
-WORKDIR "/src/linuxdocker"
-RUN dotnet build "linuxdocker.csproj" -c Release -o /app/build
+WORKDIR "/src/UserInfoService"
+RUN dotnet build "UserInfoService.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "linuxdocker.csproj" -c Release -o /app/publish
+RUN dotnet publish "UserInfoService.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "linuxdocker.dll"]
+ENTRYPOINT ["dotnet", "UserInfoService.dll"]

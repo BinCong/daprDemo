@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"
+            integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12" style="margin-top:20px;">
+            <div class="panel panel-info">
+                <div class="panel-heading">报单管理</div>
+                <table id="table" class="table table-striped table-bordered table-hover datatable">
+                    <thead id="tem">
+                    <th id="login_name">状态</th>
+                    <th id="age">受理时间</th>
+                    <th id="sex">客户卡号</th>
+                    <th id="create_time">客户姓名</th>
+                    <th id="lastest_login_time">受理电话</th>
+                    <th id="lastest_login_time">咨询项目</th>
+                    <th id="lastest_login_time">当次信息来源</th>
+                    <th id="lastest_login_time">受理情况</th>
+                    <th id="lastest_login_time">受理人员</th>
+                    <th id="lastest_login_time">当次开发人员</th>
+                    <th id="lastest_login_time">到诊机构</th>
+                    <th id="lastest_login_time">到诊日期</th>
+                    <th id="lastest_login_time">接诊状态</th>
+                    <th id="lastest_login_time">本次预约机构</th>
+                    <th id="lastest_login_time">本次预约时间</th>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 页面底部显示 -->
+    <!-- 每页显示几条记录 -->
+    <div id="bottomTool" class="row-fluid">
+        <div class="span6" style="width:25%;margin-left: 10px;">
+            <div class="dataTables_length" id="DataTables_Table_0_length">
+                <label>
+                    每页
+                    <select id="pageSize"
+                            aria-controls="DataTables_Table_0" size="1" name="DataTables_Table_0_length">
+                        <option selected="selected" value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    条记录
+                </label>
+                <div class="dataTables_paginate paging_bootstrap pagination">
+                    <ul id="previousNext">
+                        <li onclick="previous()" class="prev disabled"><a id="previousPage" href="#">上一页</a></li>                    
+                    </ul>
+                </div>
+                <div class="dataTables_paginate paging_bootstrap pagination">
+                    <select id="pageNum"
+                            style="width:50px;margin-right:1px;" aria-controls="DataTables_Table_0" size="1" name="DataTables_Table_0_length">
+                        <option selected="selected" value="1">1</option>
+                    </select>
+                </div>
+                <div class="dataTables_paginate paging_bootstrap pagination">
+                    <ul>
+                        <li class="prev disabled" onclick="next()"><a id="nextPage" href="#">下一页</a></li>
+                    </ul>
+                </div>
+              </div>
+
+            </div>
+        </div>
+    <script>
+        $(document).ready(function () {
+            search(1);
+        });
+
+       /* 查询*/
+        function search(page)
+        {
+            console.log(page);
+            $.post("http://localhost:9007/userinfo/queryuserinfos/"+page, function (data, status) {
+                console.log(data);
+                var obj = data.response.data;
+
+                $("thead").eq(0).nextAll().remove();
+                for (var i = 0; i < obj.length; i++) {
+
+                    var row = $("#tem").clone();
+
+                    row.find("#login_name").text(obj[i].uLoginName);
+                    var sex;
+                    if (obj[i].sex == 0) sex = "男";
+                    else if (obj[i].sex == 1) sex = "女";
+                    else sex = "未知";
+                    row.find("#age").text(obj[i].age);
+                    row.find("#sex").text(sex);
+                    row.find("#create_time").text(obj[i].uCreateTime);
+                    row.find("#lastest_login_time").text(obj[i].uUpdateTime);
+
+  
+                    row.appendTo("#table");
+                }
+                var pageCount = data.response.pageCount;
+
+                //显示所有的页码数
+                var pageSelect = document.getElementById("page");
+                var pageOption = "";
+                var flag;
+
+                //删除select下所有的option，清除所有页码
+                document.getElementById("pageNum").options.length = 0;
+                for (var i = 0; i < pageCount; i++) {
+                    flag = (i + 1).toString();
+                    var option;
+                    if (flag == pageNum) {
+                        option = new Option(flag, flag, false, true);
+                    } else {
+                        option = new Option(flag, flag, false, false);
+                    }
+
+                    document.getElementById("pageNum").options.add(option);
+                }
+
+                document.getElementById("pageNum").options[page-1].selected = true;
+            });         
+        }
+
+        /*上一页*/
+        function previous()
+        {
+            var id = $("#pageNum option:selected").val();
+            console.log(id);
+            var prePage = parseInt(id) - 1;
+            if (prePage < 0) return;
+            search(prePage);
+
+        }
+
+        /*下一页*/
+        function next()
+        { 
+            var id = $("#pageNum option:selected").val();
+            console.log(id);
+            var nextPage = parseInt(id) + 1;
+
+            search(nextPage);
+
+        }
+    </script>
+</body>
+</html>

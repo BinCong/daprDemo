@@ -7,8 +7,6 @@ using aspnetcoreDemo.Core.Model.BizModels;
 using aspnetcoreDemo.Core.Repository;
 using System.Collections.Generic;
 using aspnetcoreDemo.Core.Common;
-using aspnetcoreDemo.Core.Model;
-using System.Linq;
 
 namespace UserInfoService
 {
@@ -37,16 +35,11 @@ namespace UserInfoService
               });
         }
 
-        public async Task<MessageModel<PageModel<SysUserInfo>>> QueryUserInfos()
+        public async Task<List<SysUserInfo>> QueryUserInfos()
         {
-            var data = await _dal.QueryPage(null, 1, 20);
+            var data =await _dal.Query();
 
-            return new MessageModel<PageModel<SysUserInfo>>()
-            {
-                msg = "获取成功",
-                success = true,
-                response = data
-            };
+            return await Task.FromResult(data);
         }
 
         public async Task<ApiResult> SaveUserInfo(DtoUserInfo dto)
